@@ -14,6 +14,7 @@ This project provides a flexible system for creating and interacting with AI exp
 - Fully customizable decision trees with `custom_decision_tree.py`
 - **NEW: JSON-based decision tree conversations** with `decision_tree_conversation.py`
 - **NEW: Testing and validation** with `test_decision_tree.py`
+- **NEW: Colorized interface** for improved readability and user experience
 - Conversation history saved as JSON files
 - Support for different Ollama models based on expert type
 - Save and exit functionality at any point in the conversation
@@ -364,10 +365,48 @@ The updated system now provides model selection capabilities:
 - For the decision tree and custom decision tree systems, model recommendations are made based on expert type
 - Custom decision trees allow selecting different models for each expert type
 
+## Colorized Interface
+
+The system now features a colorized interface for improved readability and user experience:
+
+- **System messages** are displayed in cyan
+- **Expert responses** are highlighted in yellow
+- **User prompts** appear in green
+- **Options and menus** use bright cyan for identifiers
+- **Error messages** are shown in red
+- **Success messages** appear in bright green
+- **Help text and commands** are displayed in magenta
+
+You can disable colors using the `--no-color` command-line option:
+
+```
+python run.py --no-color
+python ollama_expert.py --no-color
+```
+
+Colors are also automatically disabled in environments that don't support them, such as when output is redirected to a file.
+
+## Command-Line Options
+
+The scripts now support various command-line options:
+
+### run.py
+```
+python run.py --no-color     # Disable colored output
+```
+
+### ollama_expert.py
+```
+python ollama_expert.py --no-color     # Disable colored output
+python ollama_expert.py --expert "Python Programming"  # Specify expert type directly
+```
+
 ## Troubleshooting
 
 - **Ollama Must Be Running**: The most common error is trying to use the system without Ollama running. Make sure to start Ollama first.
 - **No Models Available**: If you see "No models found", you need to pull at least one model with `ollama pull modelname`
 - **Model Not Found**: If a specific model isn't working, ensure you've pulled it with `ollama pull modelname`
 - **Connection Errors**: Check if your firewall is blocking connections to localhost:11434
+- **Color Issues**: If colors appear incorrectly in your terminal, use the `--no-color` option
+- **Duplicated Output**: If you see duplicated output in the menu, try clearing your terminal before running the script
 - For any other issues, check the error messages for guidance

@@ -5,7 +5,13 @@ Launcher script for the Ollama Decision Tree Expert System
 import os
 import sys
 import subprocess
+import argparse
 from ollama_utils import check_ollama_running, get_available_models
+from color_utils import (
+    print_welcome, print_system, print_header, print_error, 
+    print_success, colored_input, print_separator, colored,
+    SYSTEM_COLOR, OPTION_ID_COLOR, ERROR_COLOR
+)
 
 def clear_screen():
     """Clear the terminal screen"""
@@ -14,26 +20,31 @@ def clear_screen():
 def display_menu():
     """Display the main menu"""
     clear_screen()
-    print("\n" + "=" * 50)
-    print("Ollama Decision Tree Expert System Launcher")
-    print("=" * 50)
-    print("\nChoose a script to run:")
-    print("1. Basic Expert System (ollama_expert.py)")
-    print("2. Decision Tree Expert System (decision_tree_expert.py)")
-    print("3. Custom Decision Tree Expert System (custom_decision_tree.py)")
-    print("4. JSON-based Decision Tree Conversation (decision_tree_conversation.py)")
-    print("5. Test Decision Tree System (test_decision_tree.py)")
-    print("6. Exit")
+    print("\n")
+    print_welcome("Ollama Decision Tree Expert System Launcher")
+    
+    print_system("\nChoose a script to run:")
+    options = [
+        ("1", "Basic Expert System (ollama_expert.py)"),
+        ("2", "Decision Tree Expert System (decision_tree_expert.py)"),
+        ("3", "Custom Decision Tree Expert System (custom_decision_tree.py)"),
+        ("4", "JSON-based Decision Tree Conversation (decision_tree_conversation.py)"),
+        ("5", "Test Decision Tree System (test_decision_tree.py)"),
+        ("6", "Exit")
+    ]
+    
+    for option_id, option_text in options:
+        print(f"{colored(option_id, OPTION_ID_COLOR)}. {option_text}")
     
     while True:
         try:
-            choice = int(input("\nEnter your choice (1-6): "))
+            choice = int(colored_input("\nEnter your choice (1-6): "))
             if 1 <= choice <= 6:
                 return choice
             else:
-                print("Please enter a number between 1 and 6")
+                print_error("Please enter a number between 1 and 6")
         except ValueError:
-            print("Please enter a valid number")
+            print_error("Please enter a valid number")
 
 def check_requirements():
     """Check if required packages are installed"""
@@ -41,8 +52,8 @@ def check_requirements():
         import requests
         return True
     except ImportError:
-        print("The 'requests' package is required but not installed.")
-        install = input("Would you like to install it now? (y/n): ")
+        print_error("The 'requests' package is required but not installed.")
+        install = colored_input("Would you like to install it now? (y/n): ")
         if install.lower() == 'y':
             subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
             return True
@@ -52,34 +63,45 @@ def check_requirements():
 def run_script(script_name):
     """Run the selected Python script"""
     try:
+        print_system(f"\nLaunching {script_name}...\n")
         subprocess.run([sys.executable, script_name])
     except Exception as e:
-        print(f"Error running {script_name}: {e}")
+        print_error(f"Error running {script_name}: {e}")
     
-    input("\nPress Enter to return to the menu...")
+    colored_input("\nPress Enter to return to the menu...")
 
 def main():
     """Main function"""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Ollama Decision Tree Expert System Launcher")
+    parser.add_argument("--no-color", action="store_true", help="Disable colored output")
+    args = parser.parse_args()
+    
+    # Check if colors should be disabled
+    if args.no_color:
+        from color_utils import disable_colors
+        disable_colors()
+    
     if not check_requirements():
-        print("Required packages are not installed. Exiting.")
+        print_error("Required packages are not installed. Exiting.")
         return
     
     # Check if Ollama is running
     if not check_ollama_running():
-        print("\nOllama must be running to use this application.")
-        print("Please start Ollama and try again.")
-        print("If Ollama is not installed, visit https://ollama.ai/ for installation instructions.")
+        print_error("\nOllama must be running to use this application.")
+        print_system("Please start Ollama and try again.")
+        print_system("If Ollama is not installed, visit https://ollama.ai/ for installation instructions.")
         return
     
     # Check if any models are available
     available_models = get_available_models()
     if not available_models:
-        print("\nNo Ollama models found. You need to pull models before using the expert system.")
-        print("Example: ollama pull gemma3")
-        print("Example: ollama pull llama2")
+        print_error("\nNo Ollama models found. You need to pull models before using the expert system.")
+        print_system("Example: ollama pull gemma3")
+        print_system("Example: ollama pull llama2")
         return
     
-    print(f"\nFound {len(available_models)} available Ollama models: {', '.join(available_models)}")
+    print_success(f"\nFound {len(available_models)} available Ollama models: {', '.join(available_models)}")
     
     while True:
         choice = display_menu()
@@ -95,7 +117,7 @@ def main():
         elif choice == 5:
             run_script("test_decision_tree.py")
         elif choice == 6:
-            print("\nExiting. Goodbye!")
+            print_success("\nExiting. Goodbye!")
             break
 
 if __name__ == "__main__":

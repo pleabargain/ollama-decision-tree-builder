@@ -3,7 +3,14 @@ import datetime
 import time
 import os
 import re
+import argparse
 from ollama_utils import select_model, query_ollama
+from color_utils import (
+    print_welcome, print_system, print_header, print_error, print_expert,
+    print_success, colored_input, print_separator, colored, print_options,
+    print_help, format_command, SYSTEM_COLOR, OPTION_ID_COLOR, ERROR_COLOR,
+    HELP_COLOR, EXPERT_COLOR
+)
 
 def save_conversation(conversation_history, expert_type, timestamp=None):
     """
@@ -22,7 +29,7 @@ def save_conversation(conversation_history, expert_type, timestamp=None):
     with open(filename, 'w') as f:
         json.dump(conversation_history, f, indent=2)
     
-    print(f"\nConversation history saved to {filename}")
+    print_success(f"\nConversation history saved to {filename}")
     return filename
 
 def extract_options(response):
@@ -46,24 +53,27 @@ def extract_options(response):
     
     return None
 
-def display_options(options):
-    """
-    Display options in a formatted way
-    """
-    print("\nOptions:")
-    for option_id, option_text in options:
-        print(f"{option_id}) {option_text}")
-
 def show_help():
     """
     Show available commands
     """
-    print("\nAvailable commands:")
-    print("  help  - Show this help message")
-    print("  save  - Save the conversation")
-    print("  exit  - Save and exit the conversation")
+    print_help("\nAvailable commands:")
+    print_help(f"  {format_command('help')}  - Show this help message")
+    print_help(f"  {format_command('save')}  - Save the conversation")
+    print_help(f"  {format_command('exit')}  - Save and exit the conversation")
 
 def main():
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Ollama Expert System")
+    parser.add_argument("--no-color", action="store_true", help="Disable colored output")
+    parser.add_argument("--expert", type=str, help="Specify expert type directly")
+    args = parser.parse_args()
+    
+    # Check if colors should be disabled
+    if args.no_color:
+        from color_utils import disable_colors
+        disable_colors()
+    
     # Get current timestamp for the filename
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     
@@ -71,15 +81,17 @@ def main():
     conversation_history = []
     
     # Welcome message
-    print("\n" + "=" * 50)
-    print("Welcome to the Ollama Expert System!")
-    print("=" * 50)
+    print_welcome("Welcome to the Ollama Expert System!")
     
     # Select the Ollama model to use (this will also check if Ollama is running)
     model = select_model(default_model="gemma3")
     
     # Ask the user what type of expert they want to talk to
-    expert_type = input("\nWhat type of expert would you like to talk to today? ")
+    if args.expert:
+        expert_type = args.expert
+        print_system(f"\nExpert type: {expert_type}")
+    else:
+        expert_type = colored_input("\nWhat type of expert would you like to talk to today? ")
     
     # Create the system prompt for the expert
     system_prompt = f"""You are an expert in {expert_type}. Provide knowledgeable and helpful responses about {expert_type}.
@@ -99,7 +111,7 @@ This helps guide the conversation while still allowing for open-ended responses.
     })
     
     # Initialize the expert by sending the system prompt
-    print(f"\nInitializing {expert_type} expert...\n")
+    print_system(f"\nInitializing {expert_type} expert...\n")
     
     # Ask one question before beginning the main conversation
     initial_prompt = f"""{system_prompt}
@@ -110,12 +122,12 @@ Make sure the options are relevant and cover the main areas of interest within {
     
     initial_question = query_ollama(initial_prompt, model)
     
-    print(f"Expert: {initial_question}")
+    print_expert(initial_question)
     
     # Extract options if present
     options = extract_options(initial_question)
     if options:
-        display_options(options)
+        print_options(options)
     
     # Record this in the conversation history
     conversation_history.append({
@@ -131,12 +143,12 @@ Make sure the options are relevant and cover the main areas of interest within {
     }
     
     # Show available commands
-    print("\nType 'help' to see available commands.")
+    print_system(f"\nType {format_command('help')} to see available commands.")
     
     # Main conversation loop
     while True:
         # Get user input
-        user_input = input("\nYou (type a letter/number for options, or your own response): ")
+        user_input = colored_input("\nYou (type a letter/number for options, or your own response): ")
         
         # Record user input in conversation history
         conversation_history.append({
@@ -148,7 +160,7 @@ Make sure the options are relevant and cover the main areas of interest within {
         if user_input.lower() in commands:
             result = commands[user_input.lower()]()
             if result == "exit":
-                print("Thank you for using the Ollama Expert System. Goodbye!")
+                print_success("Thank you for using the Ollama Expert System. Goodbye!")
                 break
             continue
         
@@ -172,15 +184,16 @@ Your response:
 """
         
         # Get response from Ollama
+        print_system("\nProcessing your response...")
         response = query_ollama(full_prompt, model)
         
         # Display the response
-        print(f"\nExpert: {response}")
+        print_expert(response)
         
         # Extract options if present
         options = extract_options(response)
         if options:
-            display_options(options)
+            print_options(options)
         
         # Record the response in conversation history
         conversation_history.append({
