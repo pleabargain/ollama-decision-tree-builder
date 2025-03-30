@@ -140,12 +140,23 @@ This advanced system offers:
 4. **Save and exit at any time** - Use commands like `save`, `exit`, `help`, and `back`
 5. **Comprehensive conversation history** - All interactions are saved in a structured JSON format
 6. **Expert-specific fields** - The JSON includes dedicated fields for expert type and questions
+7. **Load and continue conversations** - Resume previous conversations from where you left off
+8. **Choose from multiple templates** - Start with different conversation templates
+
+When you run the script, you'll be presented with options to:
+1. Start a new conversation with a template
+2. Continue an existing conversation
 
 Available commands during conversation:
 - `help` - Show available commands
 - `save` - Save the current conversation
 - `exit` - Save and exit the conversation
 - `back` - Go back to the previous question
+
+You can also specify a template or conversation file directly:
+```
+python decision_tree_conversation.py path/to/your/file.json
+```
 
 ## Conversation History
 
@@ -176,17 +187,26 @@ Custom decision trees for the traditional system are saved in the `decision_tree
 - Edit the JSON files directly if you need more advanced customization
 - Share tree definitions with others
 
-### JSON Decision Tree Templates
-The new JSON-based system uses template files like `decision_tree_template.json`. These templates define:
-- The conversation flow with nodes, questions, and branching logic
-- Multiple choice options for each question
-- Default paths for free-text responses
-- Metadata about the expert type
+### Decision Tree Templates and Schema
+
+The system now includes:
+
+1. **Generic Schema** (`decision_tree_schema.json`) - A blank template with documentation that serves as a starting point for creating new decision trees
+2. **IT Career Template** (`IT_career_decision_tree_20250330.json`) - A specific implementation focused on IT career counseling
+3. **Templates Directory** - All templates are stored in the `templates/` directory
+
+The schema includes:
+- Documentation on required fields and their purpose
+- Examples of different node types
+- Best practices for creating effective decision trees
+- A minimal structure that can be extended for any domain
 
 You can create custom templates by:
-1. Copying and modifying the existing template
-2. Creating a new template from scratch following the same structure
+1. Starting with the generic schema and adding your own nodes
+2. Copying and modifying an existing template
 3. Exporting a conversation history and modifying it
+
+Templates should be placed in the `templates/` directory to be automatically detected by the system.
 
 ## Examples
 

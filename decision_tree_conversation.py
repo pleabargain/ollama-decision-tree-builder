@@ -19,7 +19,7 @@ class DecisionTreeConversation:
     """
     Main class for the Decision Tree Conversation System
     """
-    def __init__(self, template_path="decision_tree_template.json"):
+    def __init__(self, template_path=None):
         self.timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         self.current_node_id = "root"
         self.expert_type = None
@@ -34,23 +34,126 @@ class DecisionTreeConversation:
             "help": self.show_help,
             "back": self.go_back
         }
+        self.templates_dir = "templates"
+        self.history_dir = "conversation_history"
+        
+        # Create directories if they don't exist
+        os.makedirs(self.templates_dir, exist_ok=True)
+        os.makedirs(self.history_dir, exist_ok=True)
     
-    def load_decision_tree(self):
+    def list_files(self, directory, extension=".json"):
         """
-        Load the decision tree template from a JSON file
+        List all files with the given extension in the directory
+        """
+        if not os.path.exists(directory):
+            return []
+        
+        return [f for f in os.listdir(directory) if f.endswith(extension)]
+    
+    def select_file(self, files, prompt_text):
+        """
+        Let the user select a file from a list
+        """
+        if not files:
+            print(f"No files found.")
+            return None
+        
+        print(f"\n{prompt_text}")
+        for i, file in enumerate(files, 1):
+            print(f"{i}. {file}")
+        print(f"{len(files) + 1}. Enter custom path")
+        
+        while True:
+            try:
+                choice = int(input("\nEnter your choice (number): "))
+                if 1 <= choice <= len(files):
+                    return files[choice - 1]
+                elif choice == len(files) + 1:
+                    custom_path = input("Enter the path to the file: ")
+                    if os.path.exists(custom_path) and custom_path.endswith(".json"):
+                        return custom_path
+                    else:
+                        print("Invalid file path. Please try again.")
+                else:
+                    print(f"Please enter a number between 1 and {len(files) + 1}")
+            except ValueError:
+                print("Please enter a valid number")
+    
+    def load_decision_tree(self, is_template=True):
+        """
+        Load the decision tree from a JSON file
         """
         try:
+            # If no template path is provided, prompt the user to select one
+            if not self.template_path:
+                if is_template:
+                    # Move default templates to templates directory if they exist
+                    for default_template in ["decision_tree_schema.json", "decision_tree_template.json", "IT_career_decision_tree_20250330.json"]:
+                        if os.path.exists(default_template) and not os.path.exists(os.path.join(self.templates_dir, default_template)):
+                            os.rename(default_template, os.path.join(self.templates_dir, default_template))
+                    
+                    # List available templates
+                    template_files = self.list_files(self.templates_dir)
+                    
+                    # If no templates found, use the schema as default
+                    if not template_files and os.path.exists("decision_tree_schema.json"):
+                        self.template_path = "decision_tree_schema.json"
+                    else:
+                        selected_file = self.select_file(template_files, "Select a template:")
+                        if selected_file:
+                            if os.path.isabs(selected_file):
+                                self.template_path = selected_file
+                            else:
+                                self.template_path = os.path.join(self.templates_dir, selected_file)
+                        else:
+                            # Default to schema if available, otherwise template
+                            if os.path.exists(os.path.join(self.templates_dir, "decision_tree_schema.json")):
+                                self.template_path = os.path.join(self.templates_dir, "decision_tree_schema.json")
+                            elif os.path.exists(os.path.join(self.templates_dir, "decision_tree_template.json")):
+                                self.template_path = os.path.join(self.templates_dir, "decision_tree_template.json")
+                            else:
+                                print("No templates found.")
+                                return False
+                else:
+                    # List available conversation histories
+                    history_files = self.list_files(self.history_dir)
+                    selected_file = self.select_file(history_files, "Select a conversation history:")
+                    if selected_file:
+                        if os.path.isabs(selected_file):
+                            self.template_path = selected_file
+                        else:
+                            self.template_path = os.path.join(self.history_dir, selected_file)
+                    else:
+                        print("No conversation history selected.")
+                        return False
+            
+            # Load the file
             with open(self.template_path, 'r') as f:
                 self.decision_tree = json.load(f)
                 self.expert_type = self.decision_tree["metadata"]["expert_type"]
-                # Clear any existing conversation history from the template
-                self.decision_tree["conversation_history"] = []
+                
+                # If loading a template (not a conversation history), clear the history
+                if is_template:
+                    self.conversation_history = []
+                    self.decision_tree["conversation_history"] = []
+                else:
+                    # If loading a conversation history, set the conversation history and current node
+                    self.conversation_history = self.decision_tree.get("conversation_history", [])
+                    if self.conversation_history:
+                        # Set the current node to the last node in the conversation
+                        last_entry = self.conversation_history[-1]
+                        if "next_node" in last_entry and last_entry["next_node"]:
+                            self.current_node_id = last_entry["next_node"]
+                
                 return True
         except FileNotFoundError:
-            print(f"Error: Template file {self.template_path} not found")
+            print(f"Error: File {self.template_path} not found")
             return False
         except json.JSONDecodeError:
-            print(f"Error: Template file {self.template_path} contains invalid JSON")
+            print(f"Error: File {self.template_path} contains invalid JSON")
+            return False
+        except Exception as e:
+            print(f"Error loading decision tree: {e}")
             return False
     
     def get_current_node(self):
@@ -240,13 +343,29 @@ class DecisionTreeConversation:
             print("Example: ollama pull llama2")
             sys.exit(1)
         
+        # Ask the user what they want to do
+        print("\nWhat would you like to do?")
+        print("1. Start a new conversation with a template")
+        print("2. Continue an existing conversation")
+        
+        choice = input("\nEnter your choice (1-2): ")
+        
+        if choice == "1":
+            # Load a template
+            if not self.load_decision_tree(is_template=True):
+                print("Failed to load template. Exiting.")
+                sys.exit(1)
+        elif choice == "2":
+            # Load a conversation history
+            if not self.load_decision_tree(is_template=False):
+                print("Failed to load conversation history. Exiting.")
+                sys.exit(1)
+        else:
+            print("Invalid choice. Exiting.")
+            sys.exit(1)
+        
         # Select the Ollama model to use
         self.model = select_model(default_model="gemma3")
-        
-        # Load the decision tree
-        if not self.load_decision_tree():
-            print("Failed to load decision tree. Exiting.")
-            sys.exit(1)
         
         print(f"\nLoaded decision tree for expert type: {self.expert_type}")
         print(f"Using model: {self.model}")
@@ -297,5 +416,10 @@ class DecisionTreeConversation:
             print("The conversation has been saved.")
 
 if __name__ == "__main__":
-    conversation = DecisionTreeConversation()
+    # Check if a file path was provided as a command-line argument
+    if len(sys.argv) > 1:
+        conversation = DecisionTreeConversation(template_path=sys.argv[1])
+    else:
+        conversation = DecisionTreeConversation()
+    
     conversation.run()

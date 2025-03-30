@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "title": "Decision Tree Template",
+    "version": "1.0",
+    "created_at": "YYYY-MM-DDThh:mm:ss+00:00",
+    "expert_type": "expert_type_here",
+    "description": "This is a generic schema for creating decision tree conversations. Replace this with a description of your specific decision tree.",
+    "author": "your_name_here",
+    "documentation": "This schema defines the structure for a decision tree conversation. The conversation_flow array contains nodes that define questions, options, and navigation paths. The conversation_history array will store the actual conversation as it happens."
+  },
+  "conversation_flow": [
+    {
+      "node_id": "root",
+      "question": "This is your first question. It should be engaging and set the direction for the conversation.",
+      "question_type": "multiple_choice",
+      "documentation": "This is the root node where all conversations start. The node_id must be 'root' for the first question.",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "First option text",
+          "next_node": "first_option_node"
+        },
+        {
+          "option_id": "2",
+          "text": "Second option text",
+          "next_node": "second_option_node"
+        },
+        {
+          "option_id": "3",
+          "text": "Third option text",
+          "next_node": "third_option_node"
+        },
+        {
+          "option_id": "4",
+          "text": "Other (please specify)",
+          "next_node": "custom_response_node"
+        }
+      ],
+      "default_next_node": "custom_response_node"
+    },
+    {
+      "node_id": "first_option_node",
+      "question": "This is a follow-up question for the first option.",
+      "question_type": "multiple_choice",
+      "documentation": "This node is reached when the user selects the first option from the root question.",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Option text",
+          "next_node": "root"
+        },
+        {
+          "option_id": "2",
+          "text": "Option text",
+          "next_node": "root"
+        }
+      ],
+      "default_next_node": "root"
+    },
+    {
+      "node_id": "second_option_node",
+      "question": "This is a follow-up question for the second option.",
+      "question_type": "multiple_choice",
+      "documentation": "This node is reached when the user selects the second option from the root question.",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Option text",
+          "next_node": "root"
+        },
+        {
+          "option_id": "2",
+          "text": "Option text",
+          "next_node": "root"
+        }
+      ],
+      "default_next_node": "root"
+    },
+    {
+      "node_id": "third_option_node",
+      "question": "This is a follow-up question for the third option.",
+      "question_type": "multiple_choice",
+      "documentation": "This node is reached when the user selects the third option from the root question.",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Option text",
+          "next_node": "root"
+        },
+        {
+          "option_id": "2",
+          "text": "Option text",
+          "next_node": "root"
+        }
+      ],
+      "default_next_node": "root"
+    },
+    {
+      "node_id": "custom_response_node",
+      "question": "This is a follow-up for free-text responses.",
+      "question_type": "open",
+      "documentation": "This node is reached when the user provides a custom response rather than selecting one of the predefined options.",
+      "default_next_node": "root"
+    }
+  ],
+  "conversation_history": [],
+  "schema_documentation": {
+    "node_types": {
+      "multiple_choice": "Presents numbered options to the user. The user can select an option by number or type a free-text response.",
+      "open": "Accepts any free-text response from the user. No options are presented."
+    },
+    "required_fields": {
+      "node_id": "A unique identifier for the node. The first node must have the ID 'root'.",
+      "question": "The text that will be displayed to the user.",
+      "question_type": "Either 'multiple_choice' or 'open'.",
+      "options": "Required for multiple_choice nodes. An array of option objects.",
+      "default_next_node": "The node to navigate to if the user provides a free-text response or if the response doesn't match any option."
+    },
+    "option_fields": {
+      "option_id": "A unique identifier for the option within this node. Typically a number as a string.",
+      "text": "The text that will be displayed to the user for this option.",
+      "next_node": "The node_id to navigate to if this option is selected."
+    },
+    "best_practices": [
+      "Keep questions clear and concise",
+      "Provide 2-5 options for multiple choice questions",
+      "Always include an 'Other' option for multiple choice questions",
+      "Make sure all node_ids referenced in next_node fields actually exist",
+      "Consider the conversation flow carefully to avoid dead ends",
+      "Test your decision tree thoroughly before deploying"
+    ]
+  }
+}
