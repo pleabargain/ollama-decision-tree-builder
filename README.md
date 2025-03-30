@@ -91,8 +91,16 @@ python ollama_expert.py
 This script:
 - Prompts you to specify what type of expert you want to talk to
 - Initializes the expert using Ollama
-- Asks one initial question to start the conversation
+- Asks one initial question to start the conversation (now as a multiple choice question)
+- Presents multiple choice options when appropriate
+- Allows you to select options by letter/number or type your own response
+- Supports commands like 'save', 'exit', and 'help'
 - Records all interactions in a JSON file
+
+Available commands during conversation:
+- `help` - Show available commands
+- `save` - Save the current conversation
+- `exit` - Save and exit the conversation
 
 ### Decision Tree Expert System
 
