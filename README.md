@@ -1,7 +1,6 @@
 # repo
 https://github.com/pleabargain/ollama-decision-tree-builder
-
-# Ollama Decision Tree Expert System
+# bOllama Decision Tree Expert System
 
 This project provides a flexible system for creating and interacting with AI experts using Ollama. It allows users to select different types of experts through a decision tree interface and have conversations with them.
 
@@ -16,6 +15,8 @@ This project provides a flexible system for creating and interacting with AI exp
 - **NEW: Testing and validation** with `test_decision_tree.py`
 - **NEW: Colorized interface** for improved readability and user experience
 - **NEW: Error correction and response validation** for more reliable AI responses
+- **NEW: Automated input simulation** with `fake-user-input.py`
+- **NEW: Schema-compliant JSON output** for all conversation histories
 - Conversation history saved as JSON files
 - Support for different Ollama models based on expert type
 - Save and exit functionality at any point in the conversation
@@ -117,7 +118,18 @@ This script:
 - Allows you to select a specific expert within the chosen category
 - Initializes the expert using an appropriate Ollama model
 - Asks one initial question to start the conversation
-- Records all interactions in a JSON file
+- Records all interactions in a JSON file that complies with the decision tree schema
+
+You can also run it with an input file to automate the conversation:
+
+```
+python decision_tree_expert.py fake-user-input.json
+```
+
+When run with an input file, the script:
+- Reads predefined inputs from the JSON file (model, category, expert type, conversation)
+- Runs through the conversation automatically
+- Saves the output as a valid JSON file according to the schema
 
 ### Custom Decision Tree Expert System
 
@@ -195,6 +207,63 @@ python test_decision_tree.py --histories  # Test only conversation histories
 python test_decision_tree.py --navigation  # Test only node navigation
 python test_decision_tree.py --conversion  # Test only format conversion
 ```
+
+The validation process checks for:
+- Required fields in the metadata section
+- Proper structure of the conversation_flow array
+- Valid node definitions with required fields
+- Proper references between nodes
+- Correct format of conversation_history entries
+
+When validation fails, the script provides detailed error messages indicating which fields are missing or incorrectly formatted, making it easy to identify and fix issues.
+
+### Schema Validation
+
+The system now ensures that all conversation history files comply with the JSON schema defined in `templates/decision_tree_schema.json`. This schema defines the required structure for decision tree conversations, including:
+
+1. **Metadata section** - Contains information about the decision tree, such as title, version, expert type, etc.
+2. **Conversation_flow array** - Defines the nodes, questions, options, and navigation paths
+3. **Conversation_history array** - Records the actual conversation, including timestamps, user responses, and assistant responses
+
+You can validate existing conversation history files against the schema using:
+
+```
+python test_decision_tree.py --histories
+```
+
+To validate a specific file:
+
+```
+python fake-user-input.py
+```
+
+This will:
+1. Create a sample conversation
+2. Generate a schema-compliant JSON file
+3. Validate both new and existing files in the conversation_history directory
+
+#### Converting Old Format to Schema-Compliant Format
+
+If you have conversation history files in the old format (a simple array of messages), you can convert them to the new schema-compliant format using:
+
+```
+python decision_tree_conversation.py
+```
+
+Then select "Continue an existing conversation" and choose the file you want to convert. The system will automatically:
+1. Detect the old format
+2. Convert it to the new schema-compliant format
+3. Save it as a new file with the proper structure
+
+#### Example of Valid Schema-Compliant File
+
+The `Fitness_history_20250330_123837.json` and `Cybersecurity_history_20250330_120941.json` files are examples of valid schema-compliant files. They include:
+
+- A complete metadata section
+- A properly structured conversation_flow array
+- A detailed conversation_history array with all required fields
+
+These files were generated using the updated `decision_tree_expert.py` script, which now automatically formats all output according to the schema.
 
 ## Conversation History
 
@@ -355,6 +424,26 @@ You can extend this system by:
 - Customizing system prompts for more specialized experts
 - Modifying the conversation flow or adding more features
 
+### Automated Input Simulation
+
+You can simulate user input for the decision_tree_expert.py script using:
+
+```
+python fake-user-input.py
+```
+
+This script:
+- Creates a JSON file with predefined inputs (model, category, expert type, conversation)
+- Runs decision_tree_expert.py with this input file
+- Verifies that the output matches the schema in templates/decision_tree_schema.json
+- Reports on the validity of the generated JSON files
+
+This is particularly useful for:
+- Testing the system with different inputs
+- Generating example conversations
+- Ensuring that all output files comply with the schema
+- Automating the creation of decision tree conversations
+
 ## Model Selection
 
 The updated system now provides model selection capabilities:
@@ -362,8 +451,8 @@ The updated system now provides model selection capabilities:
 - All scripts check if Ollama is running before starting
 - Available models are detected automatically
 - Users can select which model to use from a numbered list
-- The default model is now `gemma3` (falls back to the first available model)
-- For the decision tree and custom decision tree systems, model recommendations are made based on expert type
+- The default model is now `llama3.2` (falls back to the first available model)
+- The system always respects the user's model selection as the primary choice
 - Custom decision trees allow selecting different models for each expert type
 
 ## Colorized Interface
@@ -419,6 +508,134 @@ python run.py --no-color     # Disable colored output
 python ollama_expert.py --no-color     # Disable colored output
 python ollama_expert.py --expert "Python Programming"  # Specify expert type directly
 ```
+
+### decision_tree_expert.py
+```
+python decision_tree_expert.py input-file.json  # Run with predefined inputs from a JSON file
+```
+
+### fake-user-input.py
+```
+python fake-user-input.py  # Create input file and run decision_tree_expert.py with it
+```
+
+## File Descriptions
+
+This section provides detailed descriptions of each Python file in the project and what they do:
+
+### Core Files
+
+- **run.py** - The main launcher script that presents a menu to choose which system to run.
+- **ollama_expert.py** - Implements the basic expert system that allows users to specify an expert type and have a conversation.
+- **ollama_utils.py** - Contains utility functions for interacting with the Ollama API, including sending prompts and receiving responses.
+- **color_utils.py** - Provides functions for colorizing terminal output to improve readability and user experience.
+- **validate_output.py** - Implements validation and error correction for AI responses to ensure high-quality interactions.
+
+### Decision Tree Implementation
+
+- **decision_tree_expert.py** - Implements the predefined decision tree expert system with categories and expert types.
+- **custom_decision_tree.py** - Provides a fully customizable decision tree system that allows users to create, save, and load custom trees.
+- **decision_tree_conversation.py** - Implements the JSON-based decision tree conversation system with structured conversations.
+
+### Test and Validation Files
+
+- **test_decision_tree.py** - Tests and validates templates and conversation history files against the schema.
+- **test_ollama_connection.py** - Verifies that Ollama is properly installed, running, and has the required models.
+- **test_ollama_expert.py** - Tests the basic expert system functionality.
+- **test_exit_command.py** - Tests the exit command functionality across different scripts.
+- **test_save_function.py** - Tests the save functionality to ensure conversation histories are properly saved.
+- **fake-user-input.py** - Creates sample conversations and tests the system with automated input simulation.
+
+## Test Scripts and Their Usage
+
+The project includes several test scripts to ensure everything is working correctly:
+
+### test_ollama_connection.py
+
+This script verifies your Ollama installation and connection:
+
+```
+python test_ollama_connection.py
+```
+
+- Checks if Ollama is running on the default port (11434)
+- Lists all available models
+- Verifies that recommended models are installed
+- Tests a simple query to ensure the API is responding correctly
+- Provides detailed error messages if any issues are found
+
+### test_decision_tree.py
+
+This comprehensive test script validates templates and conversation histories:
+
+```
+python test_decision_tree.py
+```
+
+Options:
+- `--templates` - Test only templates
+- `--histories` - Test only conversation histories
+- `--navigation` - Test only node navigation
+- `--conversion` - Test only format conversion
+
+The script checks:
+- Schema compliance for all JSON files
+- Required fields in metadata sections
+- Proper structure of conversation flows
+- Valid node definitions and references
+- Correct format of conversation histories
+
+All test results are logged to `test_decision_tree.log` for review.
+
+### test_exit_command.py
+
+Tests the exit command functionality:
+
+```
+python test_exit_command.py
+```
+
+- Verifies that the exit command works correctly in all scripts
+- Ensures that conversations are properly saved before exiting
+- Checks that the program terminates gracefully
+
+### test_save_function.py
+
+Tests the save functionality:
+
+```
+python test_save_function.py
+```
+
+- Verifies that conversations are saved correctly
+- Ensures that saved files comply with the schema
+- Checks that all required fields are included in the saved files
+
+### test_ollama_expert.py
+
+Tests the basic expert system:
+
+```
+python test_ollama_expert.py
+```
+
+- Verifies that the expert system initializes correctly
+- Tests conversation flow with predefined inputs
+- Ensures that responses are properly validated
+
+### fake-user-input.py
+
+Creates and tests automated conversations:
+
+```
+python fake-user-input.py
+```
+
+- Generates a sample conversation with predefined inputs
+- Creates a schema-compliant JSON file
+- Runs decision_tree_expert.py with the generated input
+- Validates the output against the schema
+- Useful for testing and generating example conversations
 
 ## Troubleshooting
 
