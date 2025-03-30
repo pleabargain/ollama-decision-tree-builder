@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "title": "test expert Decision Tree",
+    "version": "1.0",
+    "created_at": "2025-03-30T12:57:31.042695",
+    "expert_type": "test expert",
+    "description": "Decision tree for conversations with a test expert expert.",
+    "author": "Ollama Expert System"
+  },
+  "conversation_flow": [
+    {
+      "node_id": "root",
+      "question": "What would you like to know about test expert?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Ask a specific question",
+          "next_node": "follow_up"
+        },
+        {
+          "option_id": "2",
+          "text": "Get general information",
+          "next_node": "follow_up"
+        },
+        {
+          "option_id": "3",
+          "text": "Discuss a problem I'm having",
+          "next_node": "follow_up"
+        },
+        {
+          "option_id": "4",
+          "text": "Other (please specify)",
+          "next_node": "follow_up"
+        }
+      ],
+      "default_next_node": "follow_up"
+    },
+    {
+      "node_id": "follow_up",
+      "question": "Would you like to know more about this topic?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Yes, tell me more",
+          "next_node": "root"
+        },
+        {
+          "option_id": "2",
+          "text": "No, let's talk about something else",
+          "next_node": "root"
+        },
+        {
+          "option_id": "3",
+          "text": "I'd like to ask a specific question",
+          "next_node": "root"
+        }
+      ],
+      "default_next_node": "root"
+    }
+  ],
+  "conversation_history": [
+    {
+      "timestamp": "2025-03-30T12:57:31.043031",
+      "node_id": "follow_up",
+      "question": "Would you like to know more about this topic?",
+      "options_presented": [],
+      "user_response": "a",
+      "response_type": "free_text",
+      "next_node": "root",
+      "assistant_response": "You selected Option 1. Here's more information about it."
+    },
+    {
+      "timestamp": "2025-03-30T12:57:31.043048",
+      "node_id": "follow_up",
+      "question": "Would you like to know more about this topic?",
+      "options_presented": [
+        "Sub-option 1",
+        "Sub-option 2"
+      ],
+      "user_response": "Tell me more",
+      "response_type": "free_text",
+      "next_node": "root",
+      "assistant_response": "Here's more information about Option 1.\n\na) Sub-option 1\nb) Sub-option 2"
+    }
+  ]
+}

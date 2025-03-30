@@ -1,0 +1,58 @@
+2025-03-30 10:14:50,241 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:14:50,241 - decision_tree - INFO - Running in test mode
+2025-03-30 10:14:50,244 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:14:50,244 - decision_tree - INFO - Running in test mode
+2025-03-30 10:14:50,244 - decision_tree - INFO - Loading file: templates\decision_tree_schema.json
+2025-03-30 10:14:50,244 - decision_tree - INFO - Loaded decision tree for expert type: expert_type_here
+2025-03-30 10:14:50,245 - decision_tree - INFO - Selected option 1, next node: first_option_node
+2025-03-30 10:14:50,247 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:14:50,247 - decision_tree - INFO - Running in test mode
+2025-03-30 10:14:50,248 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:14:50,249 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:14:50,249 - decision_tree - INFO - Running in test mode
+2025-03-30 10:14:50,249 - decision_tree - INFO - Loading file: conversation_history\career_counselor_in_the_IT_sector_history_20250330_091101.json
+2025-03-30 10:14:50,250 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:14:50,250 - decision_tree - INFO - Loaded decision tree for expert type: career counselor in the IT sector
+2025-03-30 10:14:50,250 - decision_tree - INFO - Set current node to: root
+2025-03-30 10:14:50,252 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:14:50,252 - decision_tree - INFO - Running in test mode
+2025-03-30 10:14:50,252 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:30:07,255 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:30:07,256 - decision_tree - INFO - Running in test mode
+2025-03-30 10:30:07,258 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:30:07,258 - decision_tree - INFO - Running in test mode
+2025-03-30 10:30:07,259 - decision_tree - INFO - Loading file: templates\decision_tree_schema.json
+2025-03-30 10:30:07,259 - decision_tree - INFO - Loaded decision tree for expert type: expert_type_here
+2025-03-30 10:30:07,259 - decision_tree - INFO - Selected option 1, next node: first_option_node
+2025-03-30 10:30:07,260 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:30:07,261 - decision_tree - INFO - Running in test mode
+2025-03-30 10:30:07,261 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:30:07,262 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:30:07,262 - decision_tree - INFO - Running in test mode
+2025-03-30 10:30:07,263 - decision_tree - INFO - Loading file: conversation_history\career_counselor_in_the_IT_sector_history_20250330_091101.json
+2025-03-30 10:30:07,263 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:30:07,263 - decision_tree - INFO - Loaded decision tree for expert type: career counselor in the IT sector
+2025-03-30 10:30:07,263 - decision_tree - INFO - Set current node to: root
+2025-03-30 10:30:07,265 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:30:07,265 - decision_tree - INFO - Running in test mode
+2025-03-30 10:30:07,265 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:33:31,967 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:33:31,968 - decision_tree - INFO - Running in test mode
+2025-03-30 10:33:31,969 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:33:31,970 - decision_tree - INFO - Running in test mode
+2025-03-30 10:33:31,970 - decision_tree - INFO - Loading file: templates\decision_tree_schema.json
+2025-03-30 10:33:31,970 - decision_tree - INFO - Loaded decision tree for expert type: expert_type_here
+2025-03-30 10:33:31,970 - decision_tree - INFO - Selected option 1, next node: first_option_node
+2025-03-30 10:33:31,972 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:33:31,972 - decision_tree - INFO - Running in test mode
+2025-03-30 10:33:31,972 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:33:31,973 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:33:31,975 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:33:31,975 - decision_tree - INFO - Running in test mode
+2025-03-30 10:33:31,975 - decision_tree - INFO - Loading file: conversation_history\career_counselor_in_the_IT_sector_history_20250330_091101.json
+2025-03-30 10:33:31,976 - decision_tree - INFO - Converting from ollama_expert.py format
+2025-03-30 10:33:31,976 - decision_tree - INFO - Loaded decision tree for expert type: career counselor in the IT sector
+2025-03-30 10:33:31,977 - decision_tree - INFO - Set current node to: root
+2025-03-30 10:33:31,979 - decision_tree - INFO - DecisionTreeConversation initialized
+2025-03-30 10:33:31,979 - decision_tree - INFO - Running in test mode
+2025-03-30 10:33:31,980 - decision_tree - INFO - Converting from ollama_expert.py format

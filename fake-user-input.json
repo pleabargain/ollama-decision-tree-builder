@@ -1,0 +1,12 @@
+{
+  "model": "llama3.2",
+  "category": "Technology",
+  "expert_type": "Cybersecurity",
+  "use_recommended_model": "n",
+  "conversation": [
+    "Tell me about supply chain attacks",
+    "What are some notable examples?",
+    "How can companies protect themselves?",
+    "exit"
+  ]
+}
