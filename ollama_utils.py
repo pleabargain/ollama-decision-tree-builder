@@ -96,9 +96,50 @@ def select_model(default_model="gemma3"):
         except ValueError:
             print("Please enter a valid number or press Enter for the default model")
 
-def query_ollama(prompt, model):
+def validate_ollama_response(response_text):
+    """
+    Validate and sanitize the Ollama response
+    Returns a tuple of (is_valid, sanitized_response)
+    """
+    if not response_text or not isinstance(response_text, str):
+        return False, "I received an invalid response. Let's try again."
+    
+    # Check for common error patterns
+    error_patterns = [
+        "I don't know how to respond to that",
+        "I cannot assist with that",
+        "I'm unable to process",
+        "I'm not able to",
+        "I apologize, but I cannot",
+        "I'm sorry, I don't have the capability",
+        "Error:",
+        "Exception:",
+        "undefined",
+        "null"
+    ]
+    
+    for pattern in error_patterns:
+        if pattern.lower() in response_text.lower() and len(response_text) < 100:
+            return False, f"I encountered an issue with that request. Let me try a different approach."
+    
+    # Check for incomplete or truncated responses
+    if response_text.endswith(("...", "…")) and len(response_text) < 50:
+        return False, "I received an incomplete response. Let me try again."
+    
+    # Check for very short responses that might indicate an error
+    if len(response_text.strip()) < 10:
+        return False, "I received a very short response. Let me elaborate further."
+    
+    # Sanitize the response
+    # Remove any potential control characters or invalid unicode
+    sanitized = ''.join(char for char in response_text if ord(char) >= 32 or char in '\n\r\t')
+    
+    return True, sanitized
+
+def query_ollama(prompt, model, max_retries=3):
     """
     Send a query to Ollama API and get a response
+    Includes validation and error correction
     """
     url = "http://localhost:11434/api/generate"
     data = {
@@ -107,10 +148,31 @@ def query_ollama(prompt, model):
         "stream": False
     }
     
-    try:
-        response = requests.post(url, json=data, timeout=60)
-        response.raise_for_status()
-        return response.json()["response"]
-    except requests.exceptions.RequestException as e:
-        print(f"Error communicating with Ollama: {e}")
-        return "I'm having trouble connecting to my knowledge base. Let's continue anyway."
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(url, json=data, timeout=60)
+            response.raise_for_status()
+            
+            # Get the raw response
+            raw_response = response.json().get("response", "")
+            
+            # Validate and sanitize the response
+            is_valid, sanitized_response = validate_ollama_response(raw_response)
+            
+            if is_valid:
+                return sanitized_response
+            elif attempt < max_retries - 1:
+                # If not valid and we have retries left, try again with a modified prompt
+                print(f"Retrying query (attempt {attempt + 2}/{max_retries})...")
+                # Modify the prompt slightly to get a different response
+                prompt += "\n\nPlease provide a more detailed and helpful response."
+            else:
+                # If we've exhausted retries, return the sanitized response anyway
+                return sanitized_response
+                
+        except requests.exceptions.RequestException as e:
+            print(f"Error communicating with Ollama: {e}")
+            if attempt < max_retries - 1:
+                print(f"Retrying query (attempt {attempt + 2}/{max_retries})...")
+            else:
+                return "I'm having trouble connecting to my knowledge base. Let's continue anyway."
