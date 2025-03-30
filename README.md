@@ -15,6 +15,7 @@ This project provides a flexible system for creating and interacting with AI exp
 - **NEW: JSON-based decision tree conversations** with `decision_tree_conversation.py`
 - **NEW: Testing and validation** with `test_decision_tree.py`
 - **NEW: Colorized interface** for improved readability and user experience
+- **NEW: Error correction and response validation** for more reliable AI responses
 - Conversation history saved as JSON files
 - Support for different Ollama models based on expert type
 - Save and exit functionality at any point in the conversation
@@ -385,6 +386,24 @@ python ollama_expert.py --no-color
 ```
 
 Colors are also automatically disabled in environments that don't support them, such as when output is redirected to a file.
+
+## Error Correction and Response Validation
+
+The system now includes automatic error correction and response validation to ensure high-quality AI responses:
+
+- **Response Validation**: All responses from Ollama are validated before being shown to the user
+- **Error Detection**: The system can detect common error patterns, incomplete responses, and invalid outputs
+- **Automatic Retries**: If an invalid response is detected, the system will automatically retry the query
+- **Response Sanitization**: All responses are sanitized to remove any potential control characters or invalid Unicode
+- **Graceful Degradation**: If multiple retries fail, the system will provide a helpful fallback response
+
+This functionality helps ensure that:
+1. Users don't see error messages or incomplete responses
+2. The conversation flows naturally even if there are temporary issues with the AI model
+3. The system remains robust against various types of model failures
+4. All responses are properly formatted and safe to display
+
+The error correction system is configurable with a maximum number of retries and can be extended with additional validation rules as needed.
 
 ## Command-Line Options
 

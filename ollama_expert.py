@@ -183,9 +183,9 @@ etc.
 Your response:
 """
         
-        # Get response from Ollama
+        # Get response from Ollama with error correction
         print_system("\nProcessing your response...")
-        response = query_ollama(full_prompt, model)
+        response = query_ollama(full_prompt, model, max_retries=3)
         
         # Display the response
         print_expert(response)
