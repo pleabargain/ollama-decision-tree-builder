@@ -13,10 +13,13 @@ This project provides a flexible system for creating and interacting with AI exp
 - Predefined decision tree navigation with `decision_tree_expert.py`
 - Fully customizable decision trees with `custom_decision_tree.py`
 - **NEW: JSON-based decision tree conversations** with `decision_tree_conversation.py`
+- **NEW: Testing and validation** with `test_decision_tree.py`
 - Conversation history saved as JSON files
 - Support for different Ollama models based on expert type
 - Save and exit functionality at any point in the conversation
 - Multiple choice questions with free-text response options
+- Extensive error tracking and logging
+- Format conversion for different conversation history types
 
 ## Requirements
 
@@ -156,6 +159,31 @@ Available commands during conversation:
 You can also specify a template or conversation file directly:
 ```
 python decision_tree_conversation.py path/to/your/file.json
+```
+
+### Testing and Validation
+
+Run the test script to validate your templates and conversation history files:
+
+```
+python test_decision_tree.py
+```
+
+This script offers:
+
+1. **Template validation** - Checks all templates in the templates directory
+2. **Conversation history validation** - Validates all conversation history files
+3. **Node navigation testing** - Tests navigation between nodes in the decision tree
+4. **Format conversion** - Tests conversion between different conversation history formats
+5. **Detailed error reporting** - Provides comprehensive error messages and logs
+
+You can also run specific tests using command-line arguments:
+
+```
+python test_decision_tree.py --templates  # Test only templates
+python test_decision_tree.py --histories  # Test only conversation histories
+python test_decision_tree.py --navigation  # Test only node navigation
+python test_decision_tree.py --conversion  # Test only format conversion
 ```
 
 ## Conversation History

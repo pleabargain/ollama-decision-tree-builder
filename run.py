@@ -22,15 +22,16 @@ def display_menu():
     print("2. Decision Tree Expert System (decision_tree_expert.py)")
     print("3. Custom Decision Tree Expert System (custom_decision_tree.py)")
     print("4. JSON-based Decision Tree Conversation (decision_tree_conversation.py)")
-    print("5. Exit")
+    print("5. Test Decision Tree System (test_decision_tree.py)")
+    print("6. Exit")
     
     while True:
         try:
-            choice = int(input("\nEnter your choice (1-5): "))
-            if 1 <= choice <= 5:
+            choice = int(input("\nEnter your choice (1-6): "))
+            if 1 <= choice <= 6:
                 return choice
             else:
-                print("Please enter a number between 1 and 5")
+                print("Please enter a number between 1 and 6")
         except ValueError:
             print("Please enter a valid number")
 
@@ -92,6 +93,8 @@ def main():
         elif choice == 4:
             run_script("decision_tree_conversation.py")
         elif choice == 5:
+            run_script("test_decision_tree.py")
+        elif choice == 6:
             print("\nExiting. Goodbye!")
             break
 
