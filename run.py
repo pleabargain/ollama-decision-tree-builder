@@ -21,15 +21,16 @@ def display_menu():
     print("1. Basic Expert System (ollama_expert.py)")
     print("2. Decision Tree Expert System (decision_tree_expert.py)")
     print("3. Custom Decision Tree Expert System (custom_decision_tree.py)")
-    print("4. Exit")
+    print("4. JSON-based Decision Tree Conversation (decision_tree_conversation.py)")
+    print("5. Exit")
     
     while True:
         try:
-            choice = int(input("\nEnter your choice (1-4): "))
-            if 1 <= choice <= 4:
+            choice = int(input("\nEnter your choice (1-5): "))
+            if 1 <= choice <= 5:
                 return choice
             else:
-                print("Please enter a number between 1 and 4")
+                print("Please enter a number between 1 and 5")
         except ValueError:
             print("Please enter a valid number")
 
@@ -89,6 +90,8 @@ def main():
         elif choice == 3:
             run_script("custom_decision_tree.py")
         elif choice == 4:
+            run_script("decision_tree_conversation.py")
+        elif choice == 5:
             print("\nExiting. Goodbye!")
             break
 

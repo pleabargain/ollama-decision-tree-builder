@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "title": "Expert Conversation Decision Tree",
+    "version": "1.0",
+    "created_at": "2025-03-30T09:34:00+04:00",
+    "expert_type": "career counselor in the IT sector"
+  },
+  "conversation_flow": [
+    {
+      "node_id": "root",
+      "question": "What initially sparked your interest in pursuing a career within the IT sector?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Passion for technology",
+          "next_node": "passion_path"
+        },
+        {
+          "option_id": "2",
+          "text": "Financial opportunities",
+          "next_node": "financial_path"
+        },
+        {
+          "option_id": "3",
+          "text": "Job security and growth",
+          "next_node": "security_path"
+        },
+        {
+          "option_id": "4",
+          "text": "Other (please specify)",
+          "next_node": "custom_path"
+        }
+      ],
+      "default_next_node": "custom_path"
+    },
+    {
+      "node_id": "financial_path",
+      "question": "What aspects of IT compensation are most important to you?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "High base salary",
+          "next_node": "salary_details"
+        },
+        {
+          "option_id": "2",
+          "text": "Stock options and equity",
+          "next_node": "equity_details"
+        },
+        {
+          "option_id": "3",
+          "text": "Work-life balance and benefits",
+          "next_node": "benefits_details"
+        },
+        {
+          "option_id": "4",
+          "text": "Other (please specify)",
+          "next_node": "custom_financial"
+        }
+      ],
+      "default_next_node": "custom_financial"
+    },
+    {
+      "node_id": "salary_details",
+      "question": "What salary range are you targeting in your IT career?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "$50,000 - $80,000",
+          "next_node": "entry_level_roles"
+        },
+        {
+          "option_id": "2",
+          "text": "$80,000 - $120,000",
+          "next_node": "mid_level_roles"
+        },
+        {
+          "option_id": "3",
+          "text": "$120,000+",
+          "next_node": "senior_roles"
+        }
+      ],
+      "default_next_node": "custom_salary"
+    },
+    {
+      "node_id": "passion_path",
+      "question": "Which area of technology interests you the most?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Software Development",
+          "next_node": "software_dev"
+        },
+        {
+          "option_id": "2",
+          "text": "Data Science and Analytics",
+          "next_node": "data_science"
+        },
+        {
+          "option_id": "3",
+          "text": "Cybersecurity",
+          "next_node": "cybersecurity"
+        },
+        {
+          "option_id": "4",
+          "text": "Cloud Computing",
+          "next_node": "cloud_computing"
+        },
+        {
+          "option_id": "5",
+          "text": "Other (please specify)",
+          "next_node": "custom_tech"
+        }
+      ],
+      "default_next_node": "custom_tech"
+    },
+    {
+      "node_id": "security_path",
+      "question": "What aspects of job security are most important to you?",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "option_id": "1",
+          "text": "Stable industry demand",
+          "next_node": "industry_demand"
+        },
+        {
+          "option_id": "2",
+          "text": "Transferable skills",
+          "next_node": "transferable_skills"
+        },
+        {
+          "option_id": "3",
+          "text": "Career advancement opportunities",
+          "next_node": "career_advancement"
+        },
+        {
+          "option_id": "4",
+          "text": "Other (please specify)",
+          "next_node": "custom_security"
+        }
+      ],
+      "default_next_node": "custom_security"
+    }
+  ],
+  "conversation_history": [
+    {
+      "timestamp": "2025-03-30T09:11:00+04:00",
+      "node_id": "root",
+      "question": "What initially sparked your interest in pursuing a career within the IT sector?",
+      "options_presented": ["Passion for technology", "Financial opportunities", "Job security and growth", "Other (please specify)"],
+      "user_response": "the money",
+      "response_type": "free_text",
+      "next_node": "financial_path"
+    },
+    {
+      "timestamp": "2025-03-30T09:12:00+04:00",
+      "node_id": "financial_path",
+      "question": "What aspects of IT compensation are most important to you?",
+      "options_presented": ["High base salary", "Stock options and equity", "Work-life balance and benefits", "Other (please specify)"],
+      "user_response": "why will focussing on money lead to dissatisfaction?",
+      "response_type": "free_text",
+      "next_node": "custom_path"
+    }
+  ]
+}

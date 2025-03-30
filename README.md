@@ -1,5 +1,5 @@
 # repo
-
+https://github.com/pleabargain/ollama-decision-tree-builder
 
 # Ollama Decision Tree Expert System
 
@@ -12,8 +12,11 @@ This project provides a flexible system for creating and interacting with AI exp
 - Basic expert selection and conversation with `ollama_expert.py`
 - Predefined decision tree navigation with `decision_tree_expert.py`
 - Fully customizable decision trees with `custom_decision_tree.py`
+- **NEW: JSON-based decision tree conversations** with `decision_tree_conversation.py`
 - Conversation history saved as JSON files
 - Support for different Ollama models based on expert type
+- Save and exit functionality at any point in the conversation
+- Multiple choice questions with free-text response options
 
 ## Requirements
 
@@ -121,19 +124,69 @@ This script offers three main options:
    - Save your custom tree for future use
 3. **Load a saved decision tree** - Use a previously saved custom decision tree
 
+### JSON-based Decision Tree Conversation System
+
+Run the new JSON-based decision tree conversation system with:
+
+```
+python decision_tree_conversation.py
+```
+
+This advanced system offers:
+
+1. **Structured conversations** - Based on a JSON decision tree template
+2. **Multiple choice questions** - With the ability to select options by number
+3. **Free-text responses** - Users can type their own responses instead of selecting options
+4. **Save and exit at any time** - Use commands like `save`, `exit`, `help`, and `back`
+5. **Comprehensive conversation history** - All interactions are saved in a structured JSON format
+6. **Expert-specific fields** - The JSON includes dedicated fields for expert type and questions
+
+Available commands during conversation:
+- `help` - Show available commands
+- `save` - Save the current conversation
+- `exit` - Save and exit the conversation
+- `back` - Go back to the previous question
+
 ## Conversation History
 
 All conversations are saved in JSON files in the `conversation_history` directory with the naming format:
+
+For basic and traditional decision tree conversations:
 ```
 {expert_type}_history_{timestamp}.json
 ```
 
-## Custom Decision Trees
+For JSON-based decision tree conversations:
+```
+{expert_type}_decision_tree_{timestamp}.json
+```
 
-Custom decision trees are saved in the `decision_trees` directory as JSON files. You can:
+The JSON-based decision tree conversations include:
+- The complete decision tree structure
+- All questions asked
+- Options presented to the user
+- User's responses (both multiple choice and free text)
+- The path taken through the decision tree
+
+## Decision Trees
+
+### Custom Decision Trees
+Custom decision trees for the traditional system are saved in the `decision_trees` directory as JSON files. You can:
 - Create new trees through the interactive interface
 - Edit the JSON files directly if you need more advanced customization
 - Share tree definitions with others
+
+### JSON Decision Tree Templates
+The new JSON-based system uses template files like `decision_tree_template.json`. These templates define:
+- The conversation flow with nodes, questions, and branching logic
+- Multiple choice options for each question
+- Default paths for free-text responses
+- Metadata about the expert type
+
+You can create custom templates by:
+1. Copying and modifying the existing template
+2. Creating a new template from scratch following the same structure
+3. Exporting a conversation history and modifying it
 
 ## Examples
 
