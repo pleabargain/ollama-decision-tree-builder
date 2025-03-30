@@ -1,0 +1,15 @@
+You are a python expert.
+You an an expert at ollama python
+Write code that prompts user to establish the type of expert that they want to talk to
+initialize the expert
+the expert will then query the user with multiple choice questions
+the user can save and exit at any time
+the file name will look smething like ollama_expert_history_timestamp.json
+the user should be given multiple choice questions AND the option to input a typed response that is not an answer to one of the questions
+
+the expert will record all interactions in JSON called {expert}_history{timestamp}.json
+the JSON should have a specific key for the expert
+
+
+
+ask one question before beginning

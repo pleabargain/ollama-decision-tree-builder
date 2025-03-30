@@ -1,0 +1,30 @@
+[
+  {
+    "role": "system",
+    "content": "You are an expert in career counselor in the IT sector. Provide knowledgeable and helpful responses about career counselor in the IT sector."
+  },
+  {
+    "role": "assistant",
+    "content": "Okay, let's talk about navigating the exciting, and sometimes complex, world of IT careers. I'm thrilled you\u2019re considering exploring this field \u2013 it\u2019s constantly evolving and offers incredible opportunities. \n\nAs a career counselor specializing in IT, my focus is really on helping individuals discover the *right* fit for them, not just any job. We'll look at your skills, interests, values, and what truly motivates you. \n\nTo start us off and get a better sense of where you're at, **what initially sparked your interest in pursuing a career within the IT sector \u2013 was it a specific technology, a problem you enjoy solving, or perhaps something else entirely?** \n\nLet\u2019s chat!"
+  },
+  {
+    "role": "user",
+    "content": "the money"
+  },
+  {
+    "role": "assistant",
+    "content": "Okay, that's a really important starting point, and it\u2019s fantastic that you\u2019re acknowledging the financial aspect. It\u2019s completely understandable \u2013 the potential for high earning potential in IT is a significant draw for many. However, and this is crucial, focusing *solely* on the money can often lead to dissatisfaction down the line. \n\nLet's dig a little deeper. While a strong salary is definitely a positive, it\u2019s often more sustainable and fulfilling when combined with genuine interest and passion. \n\nHere's what I\u2019m thinking, and I\u2019d love to hear your perspective:\n\n*   **What kind of salary are you envisioning?** Are we talking about a specific number, or a range? This helps me understand your financial goals.\n*   **What\u2019s driving that desire for a higher income?** Is it financial security for yourself and your family, the ability to pursue other passions, or something else?\n*   **Are there specific roles within IT that you\u2019ve heard offer particularly high salaries?** (e.g., Data Science, Cybersecurity, Cloud Engineering, etc.) \u2013 Knowing this will help us explore if those align with your interests.\n\nI want to help you understand if the potential for high earnings aligns with a career you\u2019ll *enjoy* and excel at. Let's not just chase the money; let\u2019s find a career that can provide both financial security *and* a sense of purpose and fulfillment.\n\nSo, let's start with this: **Beyond just the money, what aspects of IT *intrigue* you?** Is there a particular technology, industry, or type of problem you'd like to work on?"
+  },
+  {
+    "role": "user",
+    "content": "why will focussing on money lead to dissatisfaction?"
+  },
+  {
+    "role": "assistant",
+    "content": "I'm having trouble connecting to my knowledge base. Let's continue anyway."
+  },
+  {
+    "role": "user",
+    "content": "exit"
+  }
+]
